@@ -1,0 +1,2 @@
+python -m pip install dj-database-url psycopg[binary]
+pip freeze > requirements.txt

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | Student Portal{% endblock %}
+
+{% block content %}
+
+<section class="hero glass">
+
+    <div class="badge">✦ YOUR ACADEMIC SPACE</div>
+
+    <h1>
+        Welcome to<br>
+        <span class="script">Student</span> Portal
+    </h1>
+
+    <p>
+        A modern space to explore courses, discover student profiles,
+        and keep your academic journey beautifully organized.
+    </p>
+
+</section>
+
+
+<section class="section glass">
+
+    <h2 class="section-title">
+        Explore <span class="script">Courses</span>
+    </h2>
+
+    <div class="cards">
+
+        {% for course in courses %}
+
+        <div class="card">
+
+            <div class="card-icon">📖</div>
+
+            <h3>{{ course.course_name }}</h3>
+
+            <p>
+                ⏳ {{ course.duration }}
+            </p>
+
+        </div>
+
+        {% empty %}
+
+        <div class="card">
+
+            <div class="card-icon">📭</div>
+
+            <h3>No Courses Yet</h3>
+
+            <p>
+                Courses added through the admin panel
+                will appear here.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

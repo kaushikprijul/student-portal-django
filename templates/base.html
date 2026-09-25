@@ -1,0 +1,627 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Student Portal{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+            min-height: 100vh;
+            color: white;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.45), transparent 30%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.35), transparent 30%),
+                linear-gradient(135deg, #0f1026, #21194d, #111936);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        .logo {
+            font-family: "DM Serif Display", serif;
+        }
+
+        /* Animated background */
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            z-index: -1;
+        }
+
+        body::before {
+            background: #8b5cf6;
+            top: 5%;
+            left: -100px;
+        }
+
+        body::after {
+            background: #3b82f6;
+            bottom: -100px;
+            right: -80px;
+        }
+
+        .script {
+            font-family: "Allura", cursive;
+            font-weight: 400;
+            font-size: 1.22em;
+
+            display: inline-block;
+            transform: rotate(-3deg);
+
+            color: #c4b5fd;
+            -webkit-text-fill-color: #c4b5fd;
+
+            background: none;
+            background-clip: initial;
+            -webkit-background-clip: initial;
+        }
+
+        .script-logo {
+            font-family: "Allura", cursive;
+            font-size: 1.45em;
+            font-weight: 400;
+            color: #c4b5fd;
+            -webkit-text-fill-color: #c4b5fd;
+
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            transform: translateY(3px);
+        }
+
+        .bethania-text {
+            font-family: "Bethania", "Allura", cursive;
+            font-size: 2rem;
+            line-height: 1.8;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.82);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            font-family: "DM Serif Display", serif;
+            font-size: 23px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+
+        .logo-image {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+
+            flex-shrink: 0;
+
+            filter: drop-shadow(0 4px 10px rgba(167, 139, 250, 0.35));
+
+            transition: 0.3s ease;
+        }
+
+        .logo:hover .logo-image {
+            transform: scale(1.06) rotate(-2deg);
+        }
+
+        .script-logo {
+            font-family: "Allura", cursive;
+            font-size: 1.25em;
+            font-weight: 400;
+            color: #c4b5fd;
+            -webkit-text-fill-color: #c4b5fd;
+        }
+
+        .logo > span:last-child {
+            color: #a78bfa;
+        }
+
+        /* Background SP watermark */
+
+        .watermark {
+            position: fixed;
+            top: 48%;
+            left: 50%;
+
+            width: min(58vw, 620px);
+
+            transform:
+                translate(-50%, -50%)
+                rotate(-14deg);
+
+            pointer-events: none;
+            z-index: 0;
+
+            opacity: 0.075;
+
+            filter:
+                blur(0.2px)
+                drop-shadow(0 0 35px rgba(167, 139, 250, 0.22));
+        }
+
+        .watermark img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Main container */
+
+        .container {
+            position: relative;
+            z-index: 2;
+
+            width: min(1100px, 92%);
+            margin: 35px auto;
+        }
+
+        /* Navbar */
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 28px;
+            margin-bottom: 35px;
+
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 20px;
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            color: #a78bfa;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.78);
+            text-decoration: none;
+            padding: 9px 15px;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        /* Glass card */
+
+        .glass {
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Hero */
+
+        .hero {
+            padding: 65px 50px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 50px;
+            background: rgba(167, 139, 250, 0.16);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            color: #c4b5fd;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-family: "DM Serif Display", serif;
+            font-size: clamp(42px, 6vw, 70px);
+            font-weight: 400;
+            letter-spacing: -1.8px;
+            line-height: 1.05;
+            margin-bottom: 18px;
+
+            background: linear-gradient(
+                90deg,
+                #ffffff,
+                #c4b5fd,
+                #93c5fd
+            );
+
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+            color: rgba(255, 255, 255, 0.68);
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .hero .bethania-text {
+            font-family: "Bethania", "Allura", cursive;
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.82);
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* Section */
+
+        .section {
+            padding: 35px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: "DM Serif Display", serif;
+            font-size: 30px;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            margin-bottom: 25px;
+        }
+
+        .section-title span {
+            color: #a78bfa;
+        }
+
+        /* Cards */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            padding: 25px;
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            transition: 0.35s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(167, 139, 250, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .card-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #7c3aed, #3b82f6);
+            margin-bottom: 18px;
+            font-size: 20px;
+        }
+
+        .contact-icon {
+            width: 52px;
+            height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 16px;
+
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            margin-bottom: 18px;
+
+            transition: 0.3s ease;
+        }
+
+        .contact-icon img {
+            width: 27px;
+            height: 27px;
+            object-fit: contain;
+        }
+
+        .card:hover .contact-icon {
+            transform: scale(1.08);
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .card h3 {
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            color: rgba(255, 255, 255, 0.62);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* Student Profile Cards */
+
+        .student-card {
+            padding: 25px;
+            border-radius: 24px;
+
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            transition: 0.35s ease;
+
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 560px;
+        }
+
+        .student-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(167, 139, 250, 0.45);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-top {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-height: 70px;
+            margin-bottom: 25px;
+        }
+
+        .avatar {
+            width: 58px;
+            height: 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background: linear-gradient(135deg, #7c3aed, #3b82f6);
+
+            font-size: 24px;
+            font-weight: 700;
+
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.35);
+        }
+
+        .profile-top h3 {
+            margin-bottom: 5px;
+        }
+
+        .student-name {
+            font-family: "Allura", cursive;
+            font-size: 1.9rem;
+            font-weight: 400;
+            color: #ddd6fe;
+            -webkit-text-fill-color: #ddd6fe;
+            letter-spacing: 0.3px;
+        }
+
+        .student-status {
+            font-size: 12px;
+            color: #86efac;
+        }
+
+        .student-info {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .info-item {
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            align-items: center;
+            min-height: 54px;
+            gap: 13px;
+        }
+
+        .info-content {
+            min-width: 0;
+        }
+
+        .info-item > span {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .info-item small,
+        .student-bio small {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 11px;
+        }
+
+        .info-item p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+            margin-top: 2px;
+            word-break: break-word;
+        }
+
+        .student-bio {
+            margin-top: 20px;
+            padding-top: 18px;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .student-bio p {
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 6px;
+        }
+
+        .profile-btn {
+            width: 100%;
+            margin-top: auto;
+            padding: 12px;
+
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 12px;
+
+            background: rgba(167, 139, 250, 0.12);
+            color: #ddd6fe;
+
+            text-decoration: none;
+            text-align: center;
+            display: block;
+
+            font-size: 14px;
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .profile-btn:hover {
+            background: rgba(167, 139, 250, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 13px;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero {
+                padding: 45px 25px;
+            }
+
+            .section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="watermark">
+    <img
+        src="{% static 'images/sp-logo.png' %}"
+        alt=""
+    >
+</div>
+
+<div class="container">
+
+    <nav class="navbar">
+
+        <div class="logo">
+            <img
+                src="{% static 'images/sp-logo.png' %}"
+                alt="SP Logo"
+                class="logo-image"
+            >
+
+            <span class="script-logo">Student</span>
+            <span>Portal</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/about/">Students</a>
+            <a href="/contact/">Contact</a>
+        </div>
+
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer>
+        © 2026 Student Portal · Built with Django
+    </footer>
+
+</div>
+
+</body>
+</html>
