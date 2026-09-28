@@ -1,2 +1,13 @@
+[project]
+name = "student-portal"
+version = "0.1.0"
+requires-python = ">=3.12"
+
+dependencies = [
+    "Django==6.1.1",
+    "dj-database-url==3.1.2",
+    "psycopg[binary]",
+]
+
 [tool.vercel.scripts]
-build = "python manage.py migrate --noinput"
+build = 'if [ -n "$DATABASE_URL" ]; then python manage.py migrate --noinput; fi'
